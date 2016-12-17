@@ -29,11 +29,8 @@
 
 using namespace EnjoLib;
 
-ModuleMessagingExtPut::ModuleMessagingExtPut()
-{}
-
-ModuleMessagingExtPut::~ModuleMessagingExtPut()
-{}
+ModuleMessagingExtPut::ModuleMessagingExtPut(){}
+ModuleMessagingExtPut::~ModuleMessagingExtPut(){}
 
 bool ModuleMessagingExtPut::ModMsgPut(const char* varName, const bool var, const VESSEL* myVessel, const int iVer) const
 {
@@ -72,10 +69,57 @@ bool ModuleMessagingExtPut::ModMsgPut(const char* varName, const MATRIX4& var, c
 	return true;
 }
 
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const bool var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const int var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const double var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const VECTOR3& var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const MATRIX3& var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const MATRIX4& var, const VESSEL* myVessel, const int iVer) const
+{
+	if (iVer != 1) return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+
 bool ModuleMessagingExtPut::PutBasePtr(const char* varName, const int structVer, const unsigned int structSize,
 									   const ModuleMessagingExtBase* structBasePtr, const VESSEL* myVessel, const int iVer) const
 {
-	if (iVer != 1)
+	if (! IsCorrectPtr(structVer, structSize, structBasePtr, iVer))
+        return false;
+    ModuleMessagingExtStor::Put(*this, varName, structBasePtr, myVessel);
+	return true;
+}
+
+bool ModuleMessagingExtPut::DeleteBasePtr(const char* varName, const int structVer, const unsigned int structSize,
+									   const ModuleMessagingExtBase* structBasePtr, const VESSEL* myVessel, const int iVer) const
+{
+    if (! IsCorrectPtr(structVer, structSize, structBasePtr, iVer))
+        return false;
+    return ModuleMessagingExtStor::Delete(*this, varName, structBasePtr, myVessel);
+}
+
+bool ModuleMessagingExtPut::IsCorrectPtr(const int structVer, const unsigned int structSize, const ModuleMessagingExtBase* structBasePtr, const int iVer) const
+{
+    if (iVer != 1)
 		return false;
 	if (structBasePtr == NULL)
 		return false;
@@ -83,6 +127,5 @@ bool ModuleMessagingExtPut::PutBasePtr(const char* varName, const int structVer,
 		return false;
 	if (!structBasePtr->IsCorrectSize(structSize))
 		return false;
-    ModuleMessagingExtStor::Put(*this, varName, structBasePtr, myVessel);
-	return true;
+    return true;
 }

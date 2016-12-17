@@ -41,7 +41,7 @@ namespace EnjoLib
 
 	Developer Instructions:
 
-	None. Do not call this directly or try to use this directly. 
+	None. Do not call this directly or try to use this directly.
 */
 
 	class ModuleMessagingExtPut;
@@ -67,13 +67,24 @@ namespace EnjoLib
 		static bool Get(const char* moduleName, const char* varName, MATRIX4* var, const VESSEL* myVessel);
 		static bool Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** var, const VESSEL* myVessel);
 
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, bool var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, int var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, double var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3& var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel);
+
 	protected:
 	private:
 		static std::string MakeID(const ModuleMessagingExtPut& sender, const VESSEL* myVessel, const char* varName);
 		static std::string MakeID(const char* moduleName, const VESSEL* myVessel, const char* varName);
 		template<class T> static bool SearchMap(const char* moduleName, const VESSEL*myVessel,
 												const char* varName, const std::map<std::string, T>& mapToSearch, T* returnValue);
+        template<class T> static bool SearchMapDelete(  const char* moduleName, const VESSEL*myVessel,
+                                                        const char* varName, std::map<std::string, T>& mapToSearch);
 
+		static const char m_token;
 		static std::map<std::string, bool> m_bools;
 		static std::map<std::string, int> m_ints;
 		static std::map<std::string, double> m_doubles;

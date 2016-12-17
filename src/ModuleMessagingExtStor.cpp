@@ -27,7 +27,9 @@
 #include "ModuleMessagingExtStor.hpp"
 #include "ModuleMessagingExtPut.hpp"
 #include <algorithm>
-#include <string.h>
+#include <string>
+#include <vector>
+#include <sstream>
 
 using namespace EnjoLib;
 using namespace std;
@@ -38,6 +40,7 @@ map<string, VECTOR3> ModuleMessagingExtStor::m_vectors;
 map<string, MATRIX3> ModuleMessagingExtStor::m_matrices3;
 map<string, MATRIX4> ModuleMessagingExtStor::m_matrices4;
 map<std::string, const ModuleMessagingExtBase*> ModuleMessagingExtStor::m_basepointers;
+const char ModuleMessagingExtStor::m_token = '`';
 ModuleMessagingExtStor::ModuleMessagingExtStor()
 {}
 
@@ -57,6 +60,18 @@ static bool ModuleMessagingExtStor::SearchMap(const char* moduleName, const VESS
 	}
 }
 
+template<class T>
+static bool ModuleMessagingExtStor::SearchMapDelete(const char* moduleName, const VESSEL* myVessel, const char* varName, std::map<std::string, T>& mapToSearch)
+{
+	const string & id = MakeID(moduleName, myVessel, varName);
+	map<string, T>::iterator it = mapToSearch.find(id);
+	if(it != mapToSearch.end()) {
+		mapToSearch.erase(it);
+		return true;
+	} else {
+		return false;
+	}
+}
 
 std::string ModuleMessagingExtStor::MakeID(const ModuleMessagingExtPut& sender, const VESSEL* myVessel, const char* varName)
 {
@@ -65,7 +80,7 @@ std::string ModuleMessagingExtStor::MakeID(const ModuleMessagingExtPut& sender, 
 
 std::string ModuleMessagingExtStor::MakeID(const char* moduleName, const VESSEL* myVessel, const char* varName)
 {
-    string idName = string() + myVessel->GetName() + "-" + moduleName + "-" + varName;
+    string idName = string(myVessel->GetName()) + m_token + moduleName + m_token + varName;
     std::transform(idName.begin(), idName.end(), idName.begin(), ::tolower);
     return idName;
 }
@@ -100,6 +115,35 @@ void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char
     m_basepointers[MakeID(sender, myVessel, varName)] = var;
 }
 
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, bool value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<bool>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_bools);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, int value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<int>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_ints);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, double value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<double>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_doubles);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3 & value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<VECTOR3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_vectors);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3 & value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<MATRIX3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices3);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4 & value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<MATRIX4>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices4);
+}
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* value, const VESSEL* myVessel)
+{
+    return SearchMapDelete<const ModuleMessagingExtBase *>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_basepointers);
+}
+
 
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, bool* value, const VESSEL* myVessel)
 {
@@ -125,6 +169,7 @@ bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, MA
 {
     return SearchMap<MATRIX4>(moduleName, myVessel, varName, m_matrices4, value);
 }
-bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** value, const VESSEL* myVessel) {
+bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** value, const VESSEL* myVessel)
+{
     return SearchMap<const ModuleMessagingExtBase *>(moduleName, myVessel, varName, m_basepointers, value);
 }

@@ -39,7 +39,7 @@ namespace EnjoLib
 
 	Gets data from other MFD's using the common ModuleMessagingExt library. Data can be passed by value
 	or by reference. For pass by reference, the ModuleMessagingExt library implements several further
-	checks to ensure safety and to deal with potential version or definition mismatches. 
+	checks to ensure safety and to deal with potential version or definition mismatches.
 
 	Developer Instructions:
 
@@ -76,12 +76,12 @@ namespace EnjoLib
 
 		In your code, define a pointer to a constant XYZ structure (replace XYZ, of course), such as:
 
-			constant struct xyz *remoteData; 
+			constant struct xyz *remoteData;
 
 		This tells the compiler that you guarantee not to write data via the pointer. (If you wanted to do this,
 		and the other module author wanted to cooperate, then have both sides ModMsgGetByRef the other side
 		and write local / read remote.)
-		
+
 		Then, call EnjoLib::ModuleMessagingExt().ModMsgGetByRef(MFDname, structName, structVer, &structPtr,
 		{vessel}), where the structName and structVer are given to you by the author of the PUTting module,
 		and the other parameters are the same as the ModMsgGet(). In addition to looking up the data and returning
@@ -96,7 +96,7 @@ namespace EnjoLib
 		Have a look at http://orbiter-forum.com/showthread.php?t=34971 for advice on setting up Property Pages
 		for Orbiter development (highly recommended, and it makes things much easier). If you do this, then
 		you can edit the Linker Input Additional Directories in the orbiter_vs2005 proprty page and this will
-		let you resolve any ModuleMessagigngExt for this and future projects. 
+		let you resolve any ModuleMessagigngExt for this and future projects.
 */
 	class __declspec(dllexport) ModuleMessagingExt
 	{
@@ -105,21 +105,21 @@ namespace EnjoLib
 		virtual ~ModuleMessagingExt();
 
 		bool ModMsgGet( const char* moduleName, const char* varName, bool* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, int* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, double* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, VECTOR3* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, MATRIX3* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, MATRIX4* value,
-						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 
 		template<class T>
 		bool ModMsgGetByRef(const char* moduleName, const char* structName, int structVer,
-							const T** structPtr, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1)
+							const T** structPtr, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1)  const
 		{
 			if (iVer!=1)
                 return false;
@@ -135,7 +135,7 @@ namespace EnjoLib
 	private:
 		bool ModMsgGetBasePtr(const char* moduleName, const char* varName, const int structVer,
 							  const unsigned int structSize, const ModuleMessagingExtBase** value,
-							  const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+							  const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 	};
 }
 

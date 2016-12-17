@@ -38,7 +38,7 @@ namespace EnjoLib
 	Makes your data available to other MFD's using the common ModuleMessagingExt library. Data can be
 	passed by value or by reference. For pass by reference, the ModuleMessagingExt library implements
 	several further checks to ensure type and version compatibility between you and your receiver,
-	and that the receiver cannot modify your data. 
+	and that the receiver cannot modify your data.
 
 	Developer Instructions:
 
@@ -55,11 +55,11 @@ namespace EnjoLib
 	   are setting for anything but your current vessel).
 
 	5. If you want to do pass by reference (e.g. for data structures that you update all the time, where
-	   Put by value would be a huge overhead), then: 
+	   Put by value would be a huge overhead), then:
 
 		5.1 Create a struct and inherit from ModuleMessagingExtBase, using this template:
 
-		
+
 			#pragma pack(push)
 			#pragma pack(8)
 			struct XYZ : public EnjoLib::ModuleMessagingExtBase {
@@ -85,7 +85,7 @@ namespace EnjoLib
 			will find that the byte-layouts of these things vary across compiler versions, so a client
 			with a future version of VC++ will very likely break badly trying to map on top of your legacy
 			std::vector or std::string type, etc!
-			
+
 		5.2 Instantiation of your struct... make sure that any instances of this struct that you create are
 		    in memory that will not be destroyed on the exit from a function or when the MFD class is destroyed
 			on e.g. a switch to virtual cockpit view with F8. I.e. put it in your persistent vessel class,
@@ -104,7 +104,7 @@ namespace EnjoLib
 		    is inheriting ModuleMessagingExtBase correctly,	(2) check that the base class version
 			matches your structVer parameter (i.e. check at instantiation and at call), (3) check that the
 			size of your structure matches the size at instantiation time. If good, you will get status = true
-			back, and the structure will become accessible via this library. 
+			back, and the structure will become accessible via this library.
 
 	6. To Link your code, make sure your Linker, Input, AdditionalDependencies includes ModuleMessagingExt.lib.
 	   Have a look at http://orbiter-forum.com/showthread.php?t=34971 for advice on setting up Property Pages
@@ -129,7 +129,13 @@ namespace EnjoLib
 		bool ModMsgPut(const char* varName, const VECTOR3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgPut(const char* varName, const MATRIX3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgPut(const char* varName, const MATRIX4& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-			
+
+		bool ModMsgDelete(const char* varName, const bool var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const int var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const double var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const VECTOR3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const MATRIX3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const MATRIX4& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 
 		// Safe put-by-reference function (for anything inherited from ModuleMessagingExtBase)
 		template<class T>
@@ -140,9 +146,20 @@ namespace EnjoLib
 			return PutBasePtr(varName, structVer, sizeof(T), structBasePtr, myVessel, iVer);
 		}
 
+		template<class T>
+		bool ModMsgDeleteByRef(const char* varName, const int structVer, T& structRef,
+							const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const {
+			if (iVer!=1) return false;
+			const ModuleMessagingExtBase *structBasePtr = &structRef;
+			return DeleteBasePtr(varName, structVer, sizeof(T), structBasePtr, myVessel, iVer);
+		}
+
 		// Internal implementation, but need to be public for the template to work
 		bool PutBasePtr(const char* varName, const int structVer, const unsigned int structSize,
 						const ModuleMessagingExtBase* var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+        bool DeleteBasePtr(const char* varName, const int structVer, const unsigned int structSize,
+						const ModuleMessagingExtBase* var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+        bool IsCorrectPtr(const int structVer, const unsigned int structSize, const ModuleMessagingExtBase* structBasePtr, const int iVer) const;
 	protected:
 	private:
 	};
