@@ -31,18 +31,30 @@
 #include <vector>
 #include <sstream>
 
+
+MMExt2::Advanced EnjoLib::ModuleMessagingExtStor::mma_core;
+
+
 using namespace EnjoLib;
 using namespace std;
-map<string, bool> ModuleMessagingExtStor::m_bools;
-map<string, int> ModuleMessagingExtStor::m_ints;
+
+
+
+//map<string, bool> ModuleMessagingExtStor::m_bools;
+//map<string, int> ModuleMessagingExtStor::m_ints;
 map<string, double> ModuleMessagingExtStor::m_doubles;
 map<string, VECTOR3> ModuleMessagingExtStor::m_vectors;
 map<string, MATRIX3> ModuleMessagingExtStor::m_matrices3;
 map<string, MATRIX4> ModuleMessagingExtStor::m_matrices4;
+map<string, string> ModuleMessagingExtStor::m_strings;
 map<std::string, const ModuleMessagingExtBase*> ModuleMessagingExtStor::m_basepointers;
 const char ModuleMessagingExtStor::m_token = '`';
+
+
 ModuleMessagingExtStor::ModuleMessagingExtStor()
-{}
+{
+  mma_core.Init("");
+}
 
 ModuleMessagingExtStor::~ModuleMessagingExtStor()
 {}
@@ -88,88 +100,147 @@ std::string ModuleMessagingExtStor::MakeID(const char* moduleName, const VESSEL*
 
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, bool var, const VESSEL* myVessel)
 {
-    m_bools[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel);
+
+    //m_bools[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, int var, const VESSEL* myVessel)
 {
-    m_ints[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel);
+    //m_ints[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, double var, const VESSEL* myVessel)
 {
-    m_doubles[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel);
+    //m_doubles[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3& var, const VESSEL* myVessel)
 {
-    m_vectors[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel);
+    //m_vectors[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel)
 {
-    m_matrices3[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel); 
+    //m_matrices3[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel)
 {
-    m_matrices4[MakeID(sender, myVessel, varName)] = var;
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel); 
+    //m_matrices4[MakeID(sender, myVessel, varName)] = var;
 }
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel)
 {
-    m_basepointers[MakeID(sender, myVessel, varName)] = var;
+    //Deprecated function...
+    //m_basepointers[MakeID(sender, myVessel, varName)] = var;
 }
+void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel)
+{
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    mma_core.Put(varName, var, myVessel); 
+    //m_strings[MakeID(sender, myVessel, varName)] = var;
+}
+
 
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, bool value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<bool>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_bools);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+
+    //return SearchMapDelete<bool>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_bools);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, int value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<int>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_ints);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+    // return SearchMapDelete<int>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_ints);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, double value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<double>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_doubles);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+    //return SearchMapDelete<double>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_doubles);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3 & value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<VECTOR3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_vectors);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel); 
+    //return SearchMapDelete<VECTOR3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_vectors);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3 & value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<MATRIX3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices3);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+    //return SearchMapDelete<MATRIX3>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices3);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4 & value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<MATRIX4>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices4);
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+    //return SearchMapDelete<MATRIX4>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_matrices4);
 }
 bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* value, const VESSEL* myVessel)
 {
-    return SearchMapDelete<const ModuleMessagingExtBase *>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_basepointers);
+    return false; // deprecated function
+    //return SearchMapDelete<const ModuleMessagingExtBase *>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_basepointers);
 }
-
+bool ModuleMessagingExtStor::Delete(const ModuleMessagingExtPut& sender, const char* varName, std::string value, const VESSEL* myVessel)
+{
+    mma_core.Init(sender.ModuleMessagingGetModuleName());
+    return mma_core.Delete(varName, myVessel);
+    //return SearchMapDelete<string>(sender.ModuleMessagingGetModuleName(), myVessel, varName, m_strings);
+}
 
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, bool* value, const VESSEL* myVessel)
 {
-    return SearchMap<bool>(moduleName, myVessel, varName, m_bools, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<bool>(moduleName, myVessel, varName, m_bools, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, int* value, const VESSEL* myVessel)
 {
-    return SearchMap<int>(moduleName, myVessel, varName, m_ints, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    // return SearchMap<int>(moduleName, myVessel, varName, m_ints, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, double* value, const VESSEL* myVessel)
 {
-    return SearchMap<double>(moduleName, myVessel, varName, m_doubles, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<double>(moduleName, myVessel, varName, m_doubles, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, VECTOR3* value, const VESSEL* myVessel)
 {
-    return SearchMap<VECTOR3>(moduleName, myVessel, varName, m_vectors, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<VECTOR3>(moduleName, myVessel, varName, m_vectors, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, MATRIX3* value, const VESSEL* myVessel)
 {
-    return SearchMap<MATRIX3>(moduleName, myVessel, varName, m_matrices3, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<MATRIX3>(moduleName, myVessel, varName, m_matrices3, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, MATRIX4* value, const VESSEL* myVessel)
 {
-    return SearchMap<MATRIX4>(moduleName, myVessel, varName, m_matrices4, value);
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<MATRIX4>(moduleName, myVessel, varName, m_matrices4, value);
 }
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** value, const VESSEL* myVessel)
 {
-    return SearchMap<const ModuleMessagingExtBase *>(moduleName, myVessel, varName, m_basepointers, value);
+    return false; // deprecated function
+    //return SearchMap<const ModuleMessagingExtBase *>(moduleName, myVessel, varName, m_basepointers, value);
+}
+bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, std::string *value, const VESSEL* myVessel)
+{
+    mma_core.Init(moduleName);
+    return mma_core.Get(moduleName, varName, value, myVessel);
+    //return SearchMap<std::string>(moduleName, myVessel, varName, m_strings, value);
 }

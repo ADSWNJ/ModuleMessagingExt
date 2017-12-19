@@ -27,7 +27,7 @@
 #pragma once
 #ifndef ModuleMessagingExt_H
 #define ModuleMessagingExt_H
-
+#include "windows.h"
 #include <string>
 #include <OrbiterSDK.h>
 #include "ModuleMessagingExtBase.hpp"
@@ -117,6 +117,7 @@ namespace EnjoLib
 		bool ModMsgGet( const char* moduleName, const char* varName, MATRIX4* value,
 						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
 
+
         template<class T>
 		bool ModMsgGetByRef(const char* moduleName, const char* structName, int structVer,
 							const T** structPtr, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1)
@@ -144,6 +145,20 @@ namespace EnjoLib
 						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgGet( const char* moduleName, const char* varName, MATRIX4* value,
 						const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+    static bool ModMsgGet(const char* moduleName, const char* varName, char* value, const size_t sizeValue, 
+            const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1);
+
+    static bool ModMsgGet_Dyn(const char* moduleName, const char* varName, char* value, const size_t sizeValue,
+      const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) {
+      bool ret; 
+      HMODULE hDLL = LoadLibraryA(".\\Modules\\ModuleMessagingExt.dll");
+      if (!hDLL) return false;
+      typedef bool(*FUNCMODMSGGETSTR) (const char*, const char*, char*, const size_t, const VESSEL*, const int);
+      FUNCMODMSGGETSTR Func_ModMsgGetStr = (FUNCMODMSGGETSTR)GetProcAddress(hDLL, "ModMsgGetString");
+      ret = ((Func_ModMsgGetStr) && ((Func_ModMsgGetStr)(moduleName, varName, value, sizeValue, myVessel, iVer)));
+      FreeLibrary(hDLL);
+      return ret;
+    };
 
 		template<class T>
 		bool ModMsgGetByRef(const char* moduleName, const char* structName, int structVer,

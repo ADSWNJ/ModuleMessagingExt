@@ -31,6 +31,7 @@
 #include <map>
 #include <string>
 #include "ModuleMessagingExtBase.hpp"
+#include "MMExt2_Client.hpp"
 
 namespace EnjoLib
 {
@@ -58,6 +59,7 @@ namespace EnjoLib
 		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel);
 		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel);
 		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel);
+    static void Put(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel);
 
 		static bool Get(const char* moduleName, const char* varName, bool* var, const VESSEL* myVessel);
 		static bool Get(const char* moduleName, const char* varName, int* var, const VESSEL* myVessel);
@@ -66,6 +68,7 @@ namespace EnjoLib
 		static bool Get(const char* moduleName, const char* varName, MATRIX3* var, const VESSEL* myVessel);
 		static bool Get(const char* moduleName, const char* varName, MATRIX4* var, const VESSEL* myVessel);
 		static bool Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** var, const VESSEL* myVessel);
+    static bool Get(const char* moduleName, const char* varName, std::string *var, const VESSEL* myVessel);
 
 		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, bool var, const VESSEL* myVessel);
 		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, int var, const VESSEL* myVessel);
@@ -74,6 +77,7 @@ namespace EnjoLib
 		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel);
 		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel);
 		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel);
+    static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel);
 
 	protected:
 	private:
@@ -85,13 +89,17 @@ namespace EnjoLib
                                                         const char* varName, std::map<std::string, T>& mapToSearch);
 
 		static const char m_token;
-		static std::map<std::string, bool> m_bools;
-		static std::map<std::string, int> m_ints;
+		//static std::map<std::string, bool> m_bools;
+		//static std::map<std::string, int> m_ints;
 		static std::map<std::string, double> m_doubles;
 		static std::map<std::string, VECTOR3> m_vectors;
 		static std::map<std::string, MATRIX3> m_matrices3;
 		static std::map<std::string, MATRIX4> m_matrices4;
-		static std::map<std::string, const ModuleMessagingExtBase*> m_basepointers;
+    static std::map<std::string, std::string> m_strings;
+    static std::map<std::string, const ModuleMessagingExtBase*> m_basepointers;
+
+    static MMExt2::Advanced mma_core;
+
 	};
 
 }

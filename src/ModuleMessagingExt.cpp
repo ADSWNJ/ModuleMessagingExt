@@ -27,8 +27,8 @@
 #include <OrbiterSdk.h>
 #include "ModuleMessagingExt.hpp"
 #include "ModuleMessagingExtStor.hpp"
+#include "MMExt2_Client.hpp"
 #include <string>
-
 
 using namespace EnjoLib;
 
@@ -96,6 +96,16 @@ bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, 
 {
 	return (iVer == 1) ? ModuleMessagingExtStor::Get(moduleName, varName, value, myVessel) : false;
 }
+bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, char* value, const size_t sizeValue, const VESSEL* myVessel, const int iVer)
+{
+  if (iVer != 1) return false;
+  std::string str;
+  if (!ModuleMessagingExtStor::Get(moduleName, varName, &str, myVessel)) return false;
+  if (str.length() > sizeValue) return false;
+  strcpy_s(value, sizeValue, str.c_str());
+  return true;
+}
+
 bool ModuleMessagingExt::ModMsgGetBasePtr(const char* moduleName, const char* varName, const int structVer, const unsigned int structSize,
 									  	  const ModuleMessagingExtBase** structBasePtr, const VESSEL* myVessel, const int iVer)  const
 {

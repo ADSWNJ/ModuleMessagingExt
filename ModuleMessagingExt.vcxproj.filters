@@ -35,5 +35,13 @@
     <Filter Include="Source">
       <UniqueIdentifier>{9bfb2f59-1999-467d-b7f6-5eb52a3de40d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Def">
+      <UniqueIdentifier>{5dfa8ad0-ffd2-4ac1-a9ea-4d8ea3c573d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModuleMessagingExt.def">
+      <Filter>Def</Filter>
+    </None>
   </ItemGroup>
 </Project>

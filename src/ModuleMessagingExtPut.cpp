@@ -68,6 +68,13 @@ bool ModuleMessagingExtPut::ModMsgPut(const char* varName, const MATRIX4& var, c
     ModuleMessagingExtStor::Put(*this, varName, var, myVessel);
 	return true;
 }
+bool ModuleMessagingExtPut::ModMsgPut(const char* varName, const char *var, const VESSEL* myVessel, const int iVer) const
+{
+  if (iVer != 1) return false;
+  std::string str = var;
+  ModuleMessagingExtStor::Put(*this, varName, str, myVessel);
+  return true;
+}
 
 bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const bool var, const VESSEL* myVessel, const int iVer) const
 {
@@ -98,6 +105,12 @@ bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const MATRIX4& var
 {
 	if (iVer != 1) return false;
     return ModuleMessagingExtStor::Delete(*this, varName, var, myVessel);
+}
+bool ModuleMessagingExtPut::ModMsgDelete(const char* varName, const char *var, const VESSEL* myVessel, const int iVer) const
+{
+  if (iVer != 1) return false;
+  std::string str = var;
+  return ModuleMessagingExtStor::Delete(*this, varName, str, myVessel);
 }
 
 bool ModuleMessagingExtPut::PutBasePtr(const char* varName, const int structVer, const unsigned int structSize,
