@@ -27,6 +27,9 @@
     <ClInclude Include="src\ModuleMessagingExtBase.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\ModuleMessagingExtBaseWrapper.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

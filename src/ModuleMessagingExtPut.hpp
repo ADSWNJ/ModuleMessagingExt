@@ -123,21 +123,21 @@ namespace EnjoLib
 		virtual const char* ModuleMessagingGetModuleName() const = 0;  // Return your MFD name as a const string .. e.g. return "MyMFD";
 
 		// Library functions provided for you (no need to redefine)
-		bool ModMsgPut(const char* varName, const bool var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgPut(const char* varName, const int var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgPut(const char* varName, const double var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgPut(const char* varName, const VECTOR3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgPut(const char* varName, const MATRIX3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgPut(const char* varName, const MATRIX4& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-    bool ModMsgPut(const char* varName, const char *var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const bool var,     const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const int var,      const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const double var,   const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const VECTOR3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const MATRIX3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgPut   (const char* varName, const MATRIX4& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+    bool ModMsgPut   (const char* varName, const char *var,    const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 
-		bool ModMsgDelete(const char* varName, const bool var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgDelete(const char* varName, const int var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-		bool ModMsgDelete(const char* varName, const double var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const bool var,     const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const int var,      const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+		bool ModMsgDelete(const char* varName, const double var,   const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgDelete(const char* varName, const VECTOR3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgDelete(const char* varName, const MATRIX3& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 		bool ModMsgDelete(const char* varName, const MATRIX4& var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
-    bool ModMsgDelete(const char* varName, const char *var, const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
+    bool ModMsgDelete(const char* varName, const char *var,    const VESSEL* myVessel = oapiGetFocusInterface(), const int iVer = 1) const;
 
 		// Safe put-by-reference function (for anything inherited from ModuleMessagingExtBase)
 		template<class T>

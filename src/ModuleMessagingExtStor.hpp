@@ -31,7 +31,8 @@
 #include <map>
 #include <string>
 #include "ModuleMessagingExtBase.hpp"
-#include "MMExt2_Client.hpp"
+#include "ModuleMessagingExtBaseWrapper.hpp"
+#include "MMExt2_Advanced.hpp"
 
 namespace EnjoLib
 {
@@ -49,59 +50,39 @@ namespace EnjoLib
 	class ModuleMessagingExtStor
 	{
 	public:
-		ModuleMessagingExtStor();
-		virtual ~ModuleMessagingExtStor();
 
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, bool var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, int var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, double var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3& var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel);
-		static void Put(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel);
-    static void Put(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, bool var,                           const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, int var,                            const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, double var,                         const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, const VECTOR3& var,                 const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, const MATRIX3& var,                 const VESSEL* myVessel);
+		static void Put(const ModuleMessagingExtPut& sender,    const char* varName, const MATRIX4& var,                 const VESSEL* myVessel);
+    static void Put(const ModuleMessagingExtPut& sender,    const char* varName, std::string var,                    const VESSEL* myVessel);
 
-		static bool Get(const char* moduleName, const char* varName, bool* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, int* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, double* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, VECTOR3* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, MATRIX3* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, MATRIX4* var, const VESSEL* myVessel);
-		static bool Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** var, const VESSEL* myVessel);
-    static bool Get(const char* moduleName, const char* varName, std::string *var, const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, bool* var,                          const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, int* var,                           const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, double* var,                        const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, VECTOR3* var,                       const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, MATRIX3* var,                       const VESSEL* myVessel);
+		static bool Get(const char* moduleName,                 const char* varName, MATRIX4* var,                       const VESSEL* myVessel);
+    static bool Get(const char* moduleName,                 const char* varName, std::string *var,                   const VESSEL* myVessel);
 
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, bool var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, int var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, double var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3& var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var, const VESSEL* myVessel);
-		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel);
-    static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, bool var,                           const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, int var,                            const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, double var,                         const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const VECTOR3& var,                 const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX3& var,                 const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const MATRIX4& var,                 const VESSEL* myVessel);
+		static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var,  const VESSEL* myVessel);
+    static bool Delete(const ModuleMessagingExtPut& sender, const char* varName, std::string var,                    const VESSEL* myVessel);
+
+    static void Put(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var,                                                    const VESSEL* myVessel);
+    static bool Get(const char* moduleName,              const char* varName, const ModuleMessagingExtBase** value, const unsigned int ver, const unsigned int siz, const VESSEL* myVessel);
 
 	protected:
 	private:
-		static std::string MakeID(const ModuleMessagingExtPut& sender, const VESSEL* myVessel, const char* varName);
-		static std::string MakeID(const char* moduleName, const VESSEL* myVessel, const char* varName);
-		template<class T> static bool SearchMap(const char* moduleName, const VESSEL*myVessel,
-												const char* varName, const std::map<std::string, T>& mapToSearch, T* returnValue);
-        template<class T> static bool SearchMapDelete(  const char* moduleName, const VESSEL*myVessel,
-                                                        const char* varName, std::map<std::string, T>& mapToSearch);
-
-		static const char m_token;
-		//static std::map<std::string, bool> m_bools;
-		//static std::map<std::string, int> m_ints;
-		static std::map<std::string, double> m_doubles;
-		static std::map<std::string, VECTOR3> m_vectors;
-		static std::map<std::string, MATRIX3> m_matrices3;
-		static std::map<std::string, MATRIX4> m_matrices4;
-    static std::map<std::string, std::string> m_strings;
-    static std::map<std::string, const ModuleMessagingExtBase*> m_basepointers;
-
-    static MMExt2::Advanced mma_core;
-
+        static MMExt2::Advanced mm;
 	};
-
 }
 
 #endif // ModuleMessagingExtStor_H

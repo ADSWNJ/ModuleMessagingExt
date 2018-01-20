@@ -49,8 +49,8 @@ namespace EnjoLib
 		ModuleMessagingExtBase(unsigned int sVer, unsigned int sSize) : _sVer(sVer), _sSize(sSize) {};
 		virtual ~ModuleMessagingExtBase() {};
 
-        bool IsCorrectVersion(unsigned int sVer) const;
-        bool IsCorrectSize(unsigned int sSize) const;
+    bool IsCorrectVersion(unsigned int sVer) const;
+    bool IsCorrectSize(unsigned int sSize) const;
 
 	private:
 		unsigned int _sVer;

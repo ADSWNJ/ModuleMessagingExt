@@ -27,16 +27,14 @@
 #include <OrbiterSdk.h>
 #include "ModuleMessagingExt.hpp"
 #include "ModuleMessagingExtStor.hpp"
-#include "MMExt2_Client.hpp"
+#include "MMExt2_Advanced.hpp"
 #include <string>
 
 using namespace EnjoLib;
 
-ModuleMessagingExt::ModuleMessagingExt()
-{}
+ModuleMessagingExt::ModuleMessagingExt() {}
 
-ModuleMessagingExt::~ModuleMessagingExt()
-{}
+ModuleMessagingExt::~ModuleMessagingExt() {}
 
 bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, bool* value, const VESSEL* myVessel, const int iVer)
 {
@@ -62,15 +60,7 @@ bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, 
 {
 	return (iVer == 1) ? ModuleMessagingExtStor::Get(moduleName, varName, value, myVessel) : false;
 }
-bool ModuleMessagingExt::ModMsgGetBasePtr(const char* moduleName, const char* varName, const int structVer, const unsigned int structSize,
-									  	  const ModuleMessagingExtBase** structBasePtr, const VESSEL* myVessel, const int iVer)
-{
-	if (iVer != 1) return false;
-	if (!ModuleMessagingExtStor::Get(moduleName, varName, structBasePtr, myVessel)) return false;
-	if (!(*structBasePtr)->IsCorrectVersion(structVer)) return false;
-	if (!(*structBasePtr)->IsCorrectSize(structSize)) return false;
-	return true;
-}
+
 
 bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, bool* value, const VESSEL* myVessel, const int iVer) const
 {
@@ -107,12 +97,21 @@ bool ModuleMessagingExt::ModMsgGet(const char* moduleName, const char* varName, 
 }
 
 bool ModuleMessagingExt::ModMsgGetBasePtr(const char* moduleName, const char* varName, const int structVer, const unsigned int structSize,
-									  	  const ModuleMessagingExtBase** structBasePtr, const VESSEL* myVessel, const int iVer)  const
+									  	                    const ModuleMessagingExtBase** structBasePtr, const VESSEL* myVessel, const int iVer)  const
 {
 	if (iVer != 1) return false;
-	if (!ModuleMessagingExtStor::Get(moduleName, varName, structBasePtr, myVessel)) return false;
+	if (!ModuleMessagingExtStor::Get(moduleName, varName, structBasePtr, structVer, structSize, myVessel)) return false;
 	if (!(*structBasePtr)->IsCorrectVersion(structVer)) return false;
 	if (!(*structBasePtr)->IsCorrectSize(structSize)) return false;
 	return true;
 }
 
+bool ModuleMessagingExt::ModMsgGetBasePtr(const char* moduleName, const char* varName, const int structVer, const unsigned int structSize,
+  const ModuleMessagingExtBase** structBasePtr, const VESSEL* myVessel, const int iVer)
+{
+  if (iVer != 1) return false;
+  if (!ModuleMessagingExtStor::Get(moduleName, varName, structBasePtr, structVer, structSize, myVessel)) return false;
+  if (!(*structBasePtr)->IsCorrectVersion(structVer)) return false;
+  if (!(*structBasePtr)->IsCorrectSize(structSize)) return false;
+  return true;
+}
