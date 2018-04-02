@@ -74,8 +74,9 @@ void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char
 
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, const ModuleMessagingExtBase* var, const VESSEL* myVessel)
 {
-    mm.UpdMod(sender.ModuleMessagingGetModuleName());
-    mm.PutMMBase(varName, var, myVessel->GetHandle());
+//    mm.UpdMod(sender.ModuleMessagingGetModuleName());
+//    mm.PutMMBase(varName, var, myVessel->GetHandle());
+  return; // Funciotn now deprecated
 }
 
 void ModuleMessagingExtStor::Put(const ModuleMessagingExtPut& sender, const char* varName, std::string var, const VESSEL* myVessel)
@@ -163,8 +164,9 @@ bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, MA
 
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, const ModuleMessagingExtBase** value, const unsigned int ver, const unsigned int siz, const VESSEL* myVessel)
 {
-    if (!mm.GetMMBase(moduleName, varName, value, ver, siz, myVessel->GetHandle())) return false;
-    return true;
+  //  if (!mm.GetMMBase(moduleName, varName, value, ver, siz, myVessel->GetHandle())) return false;
+  //  return true;
+  return false; // function now deprecated
 }
 
 bool ModuleMessagingExtStor::Get(const char* moduleName, const char* varName, std::string *value, const VESSEL* myVessel)
